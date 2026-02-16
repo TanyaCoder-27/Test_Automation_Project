@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="Failed suite [EcommerceSuite]">
+  <listeners>
+    <listener class-name="utilities.Listeners"/>
+  </listeners>
+  <test thread-count="5" name="EcommerceTests(failed)">
+    <classes>
+      <class name="testCases.AddToCartTest">
+        <methods>
+          <include name="tearDown"/>
+          <include name="setup"/>
+          <include name="verifyAddToCart"/>
+        </methods>
+      </class> <!-- testCases.AddToCartTest -->
+    </classes>
+  </test> <!-- EcommerceTests(failed) -->
+</suite> <!-- Failed suite [EcommerceSuite] -->
