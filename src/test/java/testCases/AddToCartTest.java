@@ -40,7 +40,7 @@ public class AddToCartTest extends BaseClass {
 
         int afterCount = pp.getCartItemCount();
 
-        Assert.assertEquals(afterCount, beforeCount);
+        Assert.assertEquals(afterCount, beforeCount+1);
 
 
         System.out.println("Product Added to Cart Successfully");
