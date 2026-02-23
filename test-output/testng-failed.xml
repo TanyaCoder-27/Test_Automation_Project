@@ -5,12 +5,21 @@
     <listener class-name="utilities.Listeners"/>
   </listeners>
   <test thread-count="5" name="EcommerceTests(failed)">
+    <parameter name="os" value="Windows"/>
+    <parameter name="browser" value="chrome"/>
     <classes>
+      <class name="testCases.LogoutTest">
+        <methods>
+          <include name="tearDown"/>
+          <include name="setup"/>
+          <include name="verifyLogout" invocation-numbers="2 3"/>
+        </methods>
+      </class> <!-- testCases.LogoutTest -->
       <class name="testCases.AddToCartTest">
         <methods>
           <include name="tearDown"/>
           <include name="setup"/>
-          <include name="verifyAddToCart"/>
+          <include name="verifyAddToCart" invocation-numbers="1 2 3"/>
         </methods>
       </class> <!-- testCases.AddToCartTest -->
     </classes>

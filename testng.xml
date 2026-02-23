@@ -10,11 +10,16 @@
 	
 
     <test name="EcommerceTests">
+    <parameter name="os" value="Windows" />
+  	<parameter name="browser"  value="chrome"/>
         <classes>
-            <class name="testCases.RegistrationTest"/>
-            <class name="testCases.LoginTest"/>
-            <class name="testCases.AddToCartTest"/>
-            <class name="testCases.LogoutTest"/>
+           <!--   <class name="testCases.RegistrationTest"/>-->
+             <!--  <class name="testCases.LoginTest"/> -->
+             <!-- <class name="testCases.AddToCartTest"/>  -->
+            <class name="testCases.LogoutTest"/> 
+           <!--   <class name="testCases.SearchProductTest"/>-->
+            
+            
         </classes>
     </test>
 

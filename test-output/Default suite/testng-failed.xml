@@ -3,13 +3,13 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="testCases.AddToCartTest">
+      <class name="testCases.RegistrationTest">
         <methods>
           <include name="tearDown"/>
           <include name="setup"/>
-          <include name="verifyAddToCart"/>
+          <include name="verifyRegistration"/>
         </methods>
-      </class> <!-- testCases.AddToCartTest -->
+      </class> <!-- testCases.RegistrationTest -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

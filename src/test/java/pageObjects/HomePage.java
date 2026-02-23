@@ -6,17 +6,20 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class HomePage {
+public class HomePage extends BasePage {
 
-    WebDriver driver;
+  
 
     By myAccount = By.xpath("//span[text()='My Account']");
     By registerLink = By.linkText("Register");
     By loginLink = By.linkText("Login");
     By logoutLink = By.linkText("Logout");
-
+    By componentsLink = By.linkText("Components");
+    By monitorsLink = By.linkText("Monitors (2)");
+    By PhonesAndPDAsLink = By.linkText("Phones & PDAs");
+    By checkoutLink = By.linkText("Checkout");
     public HomePage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
     }
 
     public void clickMyAccount() {
@@ -38,6 +41,27 @@ public class HomePage {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         wait.until(ExpectedConditions.elementToBeClickable(logoutLink)).click();
     }
+    
+    public void clickComponents() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.elementToBeClickable(componentsLink)).click();
+	}
+    
+    public void clickMonitors() {
+    			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    					wait.until(ExpectedConditions.elementToBeClickable(monitorsLink)).click();
+    					
+    }
+    
+    public void clickPhonesAndPDAs() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.elementToBeClickable(PhonesAndPDAsLink)).click();
+	}
+    
+    public void clickCheckout() {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.elementToBeClickable(checkoutLink)).click();
+	}
 }
 
 

@@ -1,5 +1,6 @@
 package utilities;
 
+import org.openqa.selenium.WebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -9,7 +10,7 @@ import com.aventstack.extentreports.ExtentTest;
 
 import base.BaseClass;
 
-public class Listeners implements ITestListener {
+public class Listeners implements ITestListener{
 
     ExtentReports extent = ExtentManager.getInstance();
     ExtentTest test;
@@ -30,7 +31,10 @@ public class Listeners implements ITestListener {
         test.fail(result.getThrowable());
 
         try {
-            String path = ScreenshotUtil.captureScreenshot(BaseClass.getDriver(),
+        	// 🔥 get driver from failed test class
+            Object testClass = result.getInstance();
+            WebDriver driver = ((BaseClass) testClass).driver;
+            String path = ScreenshotUtil.captureScreenshot(driver,
                     result.getMethod().getMethodName());
 
             test.addScreenCaptureFromPath(path);

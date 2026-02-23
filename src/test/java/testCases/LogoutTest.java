@@ -6,13 +6,14 @@ import org.testng.annotations.Test;
 import base.BaseClass;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
+import utilities.DataProviders;
 
 import org.openqa.selenium.By;
 
 public class LogoutTest extends BaseClass {
 
-    @Test
-    public void verifyLogout() {
+    @Test(dataProvider="RegData",dataProviderClass=DataProviders.class)
+    public void verifyLogout(String email, String password) {
 
         HomePage hp = new HomePage(driver);
         hp.clickMyAccount();
@@ -21,8 +22,8 @@ public class LogoutTest extends BaseClass {
         LoginPage lp = new LoginPage(driver);
         //lp.setEmail("b69bc@gmail.com");  // use a registered email : b69bc@gmail.com
         //lp.setPassword("Test@123");
-        lp.setEmail(USER_EMAIL);
-        lp.setPassword(USER_PASSWORD);
+        lp.setEmail(email);
+        lp.setPassword(password);
 
         lp.clickLogin();
 

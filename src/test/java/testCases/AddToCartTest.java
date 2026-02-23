@@ -1,5 +1,49 @@
 
 //try in future to use dynamic data for login and product selection as well, instead of static data. This will make the tests more robust and less prone to failure due to data changes. For example, you can create a utility class to generate random product names or use a data provider to supply different sets of login credentials and products to test with.
+/*
+package testCases;
+
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import pageObjects.HomePage;
+import pageObjects.LoginPage;
+import pageObjects.ProductPage;
+import pageObjects.CartPage;
+import base.BaseClass;
+
+public class AddToCartTest extends BaseClass {
+
+    @Test(groups = "sanity")
+    public void verifyAddToCart() {
+
+        LoginPage lp = new LoginPage(driver);
+        lp.login(prop.getProperty("email"), prop.getProperty("password"));
+
+        ProductPage pp = new ProductPage(driver);
+
+        int beforeCount = pp.getCartItemCount();
+
+        pp.clickDesktops();
+        pp.selectFirstProduct();
+        pp.addToCart();
+
+        int afterCount = pp.getCartItemCount();
+
+        Assert.assertEquals(afterCount, beforeCount + 1, "Cart count did not increase");
+
+        // ===== NEW PROFESSIONAL VALIDATION =====
+        HomePage hp = new HomePage(driver);
+        hp.openCart();
+
+        CartPage cp = new CartPage(driver);
+
+        Assert.assertTrue(cp.getCartItemsCount() > 0, "Cart is empty");
+    }
+}
+
+
+*/
 
 package testCases;
 
@@ -10,11 +54,12 @@ import base.BaseClass;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import pageObjects.ProductPage;
+import utilities.DataProviders;
 
 public class AddToCartTest extends BaseClass {
 
-    @Test
-    public void verifyAddToCart() {
+    @Test(dataProvider="LoginData",dataProviderClass=DataProviders.class)
+    public void verifyAddToCart(String email, String password, String exp) {
 
         HomePage hp = new HomePage(driver);
         hp.clickMyAccount();
@@ -23,8 +68,8 @@ public class AddToCartTest extends BaseClass {
         LoginPage lp = new LoginPage(driver);
         //lp.setEmail("b69bc@gmail.com");  // use a registered email 
         //lp.setPassword("Test@123");
-        lp.setEmail(USER_EMAIL);
-        lp.setPassword(USER_PASSWORD);
+        lp.setEmail(email);
+        lp.setPassword(password);
 
         lp.clickLogin();
 

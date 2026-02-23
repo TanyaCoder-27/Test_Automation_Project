@@ -1,40 +1,79 @@
 package testCases;
 
+import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import base.BaseClass;
 import pageObjects.HomePage;
 import pageObjects.LoginPage;
-
-import org.openqa.selenium.By;
+import utilities.DataProviders;
 
 public class LoginTest extends BaseClass {
 
-    @Test
-    public void verifyLogin() {
+    @Test(dataProvider = "LoginData", dataProviderClass = DataProviders.class)
+    public void verifyLogin(String email, String password, String expected) {
 
-        HomePage hp = new HomePage(driver);
-        hp.clickMyAccount();
-        hp.clickLogin();
+        logger.info("===== Starting Login Test =====");
 
-        LoginPage lp = new LoginPage(driver);
+        try {
+            // Home Page
+            HomePage hp = new HomePage(driver);
+            hp.clickMyAccount();
+            hp.clickLogin();
 
-        //lp.setEmail("b69bc@gmail.com");  // use a registered email :d7531@gmail.com, b69bc@gmail.com  ,176c3@gmail.com, 2a537@gmail.com,  0ce45@gmail.com , 56435@gmail.com , 3f710@gmail.com , d9044@gmail.com, e9580@gmail.com, c555e@gmail.com, dcd43@gmail.com
-        //lp.setPassword("Test@123");
-        
-        lp.setEmail(USER_EMAIL);
-        lp.setPassword(USER_PASSWORD);
+            // Login Page
+            LoginPage lp = new LoginPage(driver);
+            lp.setEmail(email);
+            lp.setPassword(password);
+            lp.clickLogin();
 
-        lp.clickLogin();
+            // Check if login success (My Account visible)
+            boolean isLoggedIn;
 
-        boolean isMyAccountDisplayed = driver.findElement(
-                By.linkText("Edit your account information")
-        ).isDisplayed();
+            try {
+                isLoggedIn = driver.findElement(
+                        By.linkText("Edit your account information")
+                ).isDisplayed();
+            } catch (Exception e) {
+                isLoggedIn = false;
+            }
 
-        Assert.assertTrue(isMyAccountDisplayed);
+            // ===== Validation Logic =====
+            if (expected.equalsIgnoreCase("Pass")) {
+                if (isLoggedIn) {
+                    logger.info("Login passed as expected");
+                    Assert.assertTrue(true);
 
-        System.out.println("Login Successful");
+                    // logout to reset state
+                    driver.findElement(By.linkText("Logout")).click();
+
+                } else {
+                    logger.error("Login failed but expected Pass");
+                    Assert.fail();
+                }
+            }
+
+            if (expected.equalsIgnoreCase("Fail")) {
+                if (!isLoggedIn) {
+                    logger.info("Login failed as expected");
+                    Assert.assertTrue(true);
+                } else {
+                    logger.error("Login passed but expected Fail");
+
+                    // logout if accidentally logged in
+                    driver.findElement(By.linkText("Logout")).click();
+
+                    Assert.fail();
+                }
+            }
+
+        } catch (Exception e) {
+            logger.error("Exception in login test: " + e.getMessage());
+            Assert.fail();
+        }
+
+        logger.info("===== Finished Login Test =====");
     }
 }
 

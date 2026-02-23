@@ -49,6 +49,11 @@ public class ProductPage {
         String number = text.split(" ")[0];
         return Integer.parseInt(number);
     }
+
+	public void selectFirstProduct() {
+		// TODO Auto-generated method stub
+		
+	}
 }
     
     

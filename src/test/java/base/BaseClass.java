@@ -1,66 +1,74 @@
-// dynamic drivers --> edge, firefox, safari, opera, etc. --> WebDriverManager
-// dynamic urls --> config.properties file --> FileInputStream, Properties class
-// why WebDriverManager? --> no need to download and set path for drivers, it automatically manages the drivers for us based on the browser we want to use.
-/*
- 
- With WebDriverManager
-
-It automatically:
-
-Detects browser version
-
-Downloads correct driver
-
-Sets system property
-
-Handles version mismatch
- */
-
 package base;
 
 import java.time.Duration;
+import java.util.Properties;
+import java.io.FileInputStream;
+import java.io.IOException;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
-import utilities.ReadConfig;
+import org.testng.annotations.Parameters;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class BaseClass {
 
-    public static WebDriver driver;
-    
-    public static final String USER_EMAIL = "b69bc@gmail.com";
-    public static final String USER_PASSWORD = "Test@123";
-
-    ReadConfig readConfig = new ReadConfig();
+    public WebDriver driver;
+    public Logger logger;
+    public Properties prop;
 
     @BeforeClass
-    public void setup() {
+    @Parameters({"os", "browser"})
+    public void setup(String os, String br) throws IOException {
 
-        String browser = readConfig.getBrowser();
-        String url = readConfig.getBaseURL();
+        logger = LogManager.getLogger(this.getClass());
 
-        if (browser.equalsIgnoreCase("chrome")) {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
+        // ✅ Load config.properties
+        prop = new Properties();
+        FileInputStream fis = new FileInputStream(
+                System.getProperty("user.dir") + "/src/test/resources/config.properties"
+        );
+        prop.load(fis);
+
+        switch (br.toLowerCase()) {
+            case "chrome":
+                driver = new ChromeDriver();
+                break;
+            case "edge":
+                driver = new EdgeDriver();
+                break;
+            default:
+                System.out.println("No matching browser..");
+                return;
         }
 
+        driver.manage().deleteAllCookies();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        driver.get(prop.getProperty("baseURL"));  // ✅ correct
         driver.manage().window().maximize();
-        driver.get(url);
     }
-    
+
     @AfterClass
     public void tearDown() {
         driver.quit();
     }
-    
-    public static WebDriver getDriver() {   //for listener class and to access driver instance
-        return driver;
+
+    public String randomeString() {
+        return RandomStringUtils.randomAlphabetic(5);
     }
 
-    
+    public String randomeNumber() {
+        return RandomStringUtils.randomNumeric(10);
+    }
+
+    public String randomAlphaNumeric() {
+        return RandomStringUtils.randomAlphabetic(3)
+                + "@"
+                + RandomStringUtils.randomNumeric(3);
+    }
 }

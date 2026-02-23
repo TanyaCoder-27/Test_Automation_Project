@@ -1,9 +1,7 @@
 
-// Dynamic data ; not static data
-
 package testCases;
 
-import java.util.UUID;
+import java.io.IOException;
 
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -12,31 +10,32 @@ import org.testng.annotations.Test;
 import base.BaseClass;
 import pageObjects.HomePage;
 import pageObjects.RegistrationPage;
+import utilities.ExcelUtility;
 
 public class RegistrationTest extends BaseClass {
 
     @Test
-    public void verifyRegistration() {
+    public void verifyRegistration() throws IOException {
 
-    	HomePage hp = new HomePage(driver);
-
-    	hp.clickMyAccount();
-    	hp.clickRegister();
-
+        HomePage hp = new HomePage(driver);
+        hp.clickMyAccount();
+        hp.clickRegister();
 
         RegistrationPage rp = new RegistrationPage(driver);
 
-        rp.setFirstName("Tanya");
-        rp.setLastName("Automation");
+        // Dynamic data using BaseClass methods
+        String firstName = randomeString();
+        String lastName = randomeString();
+        String email = randomeString().toLowerCase() + randomeNumber().substring(0,3) + "@gmail.com";
+        String phone = randomeNumber();
+        String password = "Test@" + randomeNumber().substring(0,3);
 
-        // Generate random email
-        String email = UUID.randomUUID().toString().substring(0,5) + "@gmail.com";
-        
+        rp.setFirstName(firstName);
+        rp.setLastName(lastName);
         rp.setEmail(email);
-
-        rp.setTelephone("9876543210");
-        rp.setPassword("Test@123");
-        rp.setConfirmPassword("Test@123");
+        rp.setTelephone(phone);
+        rp.setPassword(password);
+        rp.setConfirmPassword(password);
 
         rp.clickPolicy();
         rp.clickContinue();
@@ -50,6 +49,23 @@ public class RegistrationTest extends BaseClass {
 
         System.out.println("Registration Successful");
         System.out.println("Registered Email: " + email);
+        System.out.println("Password: " + password);
+
+        // ✅ Write Email & Password into Excel
+        String path = System.getProperty("user.dir") + "/testData/RegistrationData.xlsx";
+        ExcelUtility xl = new ExcelUtility(path);
+        
+     // Create headers if first time
+        if (xl.getRowCount("Users") == 0) {
+            xl.setCellData("Users", 0, 0, "Email");
+            xl.setCellData("Users", 0, 1, "Password");
+        }
+
+        // Next available row
+        int row = xl.getRowCount("Users") + 1;
+
+        xl.setCellData("Users", row, 0, email);
+        xl.setCellData("Users", row, 1, password);
     }
 }
 
