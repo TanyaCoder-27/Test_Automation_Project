@@ -42,15 +42,15 @@ A scalable **Selenium Test Automation Framework** built with **Java, Selenium We
 1. Clone the repository:
    ```bash
    git clone https://github.com/TanyaCoder-27/Test_Automation_Project.git
-
+   ```
 2. Navigate to the project directory:
   ```bash
   cd Test_Automation_Project
-
+  ```
 3. Run tests using Maven:
   ```bash
   mvn clean test
-
+  ```
 4. View reports in the reports/ or test-output/ folder.
 
 # 📊 Reporting & Analysis
