@@ -10,11 +10,11 @@ import utilities.DataProviders;
 
 public class LoginTest extends BaseClass {
 
-    @Test(dataProvider = "RegData", dataProviderClass = DataProviders.class)
-    public void verifyLogin(String email, String password) {
+    @Test(dataProvider = "LoginData", dataProviderClass = DataProviders.class)
+    public void verifyLogin(String email, String password, String expected) {
 
         logger.info("===== Starting Login Test =====");
-        System.out.println("Login Test Started with email: " + email);
+        System.out.println("Login Test Started with email: " + email + " | Expected: " + expected);
 
         try {
             // Home Page
@@ -31,19 +31,35 @@ public class LoginTest extends BaseClass {
             // Check if login success using page object method
             boolean isLoggedIn = lp.isLoggedIn();
 
-            // Since we're using RegData (valid credentials), login should succeed
-            if (isLoggedIn) {
-                logger.info("Login passed as expected");
-                System.out.println("✅ LOGIN TEST PASSED - User successfully logged in");
-                Assert.assertTrue(true);
-                
-                // logout to reset state
-                lp.logout();
-                System.out.println("✅ LOGOUT COMPLETED - Test state reset");
+            // Validation Logic based on expected result
+            if (expected.equalsIgnoreCase("Pass")) {
+                if (isLoggedIn) {
+                    logger.info("Login passed as expected");
+                    System.out.println("✅ LOGIN TEST PASSED - User successfully logged in");
+                    Assert.assertTrue(true);
+                    
+                    // logout to reset state
+                    lp.logout();
+                    System.out.println("✅ LOGOUT COMPLETED - Test state reset");
+                } else {
+                    logger.error("Login failed but expected Pass");
+                    System.out.println("❌ LOGIN TEST FAILED - Expected login to pass but it failed");
+                    Assert.fail();
+                }
+            } else if (expected.equalsIgnoreCase("Fail")) {
+                if (!isLoggedIn) {
+                    logger.info("Login failed as expected");
+                    System.out.println("✅ LOGIN TEST PASSED - Login correctly failed with invalid credentials");
+                    Assert.assertTrue(true);
+                } else {
+                    logger.error("Login passed but expected Fail");
+                    System.out.println("❌ LOGIN TEST FAILED - Expected login to fail but it passed");
+                    Assert.fail();
+                }
             } else {
-                logger.error("Login failed but expected Pass");
-                System.out.println("❌ LOGIN TEST FAILED - Expected login to pass but it failed");
-                Assert.fail();
+                logger.error("Invalid expected result: " + expected);
+                System.out.println("❌ LOGIN TEST ERROR - Invalid expected result: " + expected);
+                Assert.fail("Invalid expected result: " + expected);
             }
 
         } catch (Exception e) {

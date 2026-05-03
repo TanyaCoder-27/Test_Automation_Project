@@ -27,6 +27,7 @@ A scalable **Selenium Test Automation Framework** built with **Java, Selenium We
 - **Automated reporting** with detailed logs
 - **Screenshot capture** on test failures for debugging
 - **Scalable design** for adding new test cases easily
+- **Jenkins CI/CD Integration** for automated build and test execution
 
 ---
 
@@ -35,6 +36,9 @@ A scalable **Selenium Test Automation Framework** built with **Java, Selenium We
 - **Automation Tool**: Selenium WebDriver  
 - **Test Framework**: TestNG  
 - **Build Tool**: Maven  
+- **CI/CD**: Jenkins  
+- **Reporting**: ExtentReports  
+- **Data Management**: Apache POI (Excel)  
 
 ---
 
@@ -53,18 +57,44 @@ A scalable **Selenium Test Automation Framework** built with **Java, Selenium We
   ```
 4. View reports in the reports/ or test-output/ folder.
 
+---
+
+## 🔄 Jenkins Integration
+
+This test automation framework is **fully integrated with Jenkins** for continuous integration and continuous deployment (CI/CD). The Jenkins pipeline automates the entire testing process, ensuring code quality and reliability.
+
+### 🚀 Jenkins Pipeline Features:
+- **Automated test execution** on every code commit
+- **Real-time build monitoring** with console output
+- **Test result visualization** with ExtentReports
+- **Failure notifications** and screenshot capture
+- **Historical test trends** and performance metrics
+- **Cross-browser testing** support in Jenkins environment
+
+### 📊 Jenkins Build Documentation
+
+For detailed information about the Jenkins integration build execution results and console outputs, please refer to the documentation:
+
+📎 **[Jenkins Integration Documentation](Jenkins_Integrated_OP.pdf)**
+
+*This PDF contains actual Jenkins build console outputs, test execution results, and build history demonstrating the successful integration of the test automation framework with Jenkins CI/CD.*
+
+---
+
 # 📊 Reporting & Analysis
 
 - **HTML reports** generated automatically after execution  
 - **Failure screenshots** stored for quick debugging  
 - **Logs** available for detailed execution trace  
+- **Jenkins dashboard** for build history and trends  
+- **ExtentReports** integration for professional test reporting  
 
 ---
 
 ## 👩‍💻 Author
 
 **TanyaCoder-27**  
-Building robust automation frameworks with **Selenium & TestNG**.
+Building robust automation frameworks with **Selenium & TestNG** and **Jenkins CI/CD integration**.
 
 ---
 

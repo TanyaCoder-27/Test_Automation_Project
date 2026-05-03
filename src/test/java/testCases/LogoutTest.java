@@ -8,8 +8,6 @@ import pageObjects.HomePage;
 import pageObjects.LoginPage;
 import utilities.DataProviders;
 
-import org.openqa.selenium.By;
-
 public class LogoutTest extends BaseClass {
 
     @Test(dataProvider="RegData",dataProviderClass=DataProviders.class)
@@ -31,9 +29,7 @@ public class LogoutTest extends BaseClass {
         hp.clickLogout();
 
         // Using page object method instead of hardcoded xpath
-        boolean logoutMsg = driver.findElement(
-                By.xpath("//h1[text()='Account Logout']")
-        ).isDisplayed();
+        boolean logoutMsg = lp.isLogoutMessageDisplayed();
 
         if (logoutMsg) {
             System.out.println(" LOGOUT TEST PASSED - Account Logout message displayed");

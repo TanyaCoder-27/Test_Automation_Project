@@ -15,6 +15,7 @@ public class LoginPage extends BasePage {
     By editAccountLink = By.linkText("Edit your account information");
     By logoutLink = By.linkText("Logout");
     By errorMessage = By.cssSelector(".alert-danger");
+    By logoutMessage = By.xpath("//h1[text()='Account Logout']");
 
     public LoginPage(WebDriver driver) {
         super(driver);
@@ -49,9 +50,19 @@ public class LoginPage extends BasePage {
         wait.until(ExpectedConditions.elementToBeClickable(logoutLink)).click();
     }
 
+    public boolean isLogoutMessageDisplayed() {
+        try {
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(logoutMessage)).isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public boolean isErrorMessageDisplayed() {
         try {
-            return driver.findElements(errorMessage).size() > 0;
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+            return wait.until(ExpectedConditions.visibilityOfElementLocated(errorMessage)).isDisplayed();
         } catch (Exception e) {
             return false;
         }
