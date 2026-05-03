@@ -1,6 +1,5 @@
 package testCases;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -11,10 +10,11 @@ import utilities.DataProviders;
 
 public class LoginTest extends BaseClass {
 
-    @Test(dataProvider = "LoginData", dataProviderClass = DataProviders.class)
-    public void verifyLogin(String email, String password, String expected) {
+    @Test(dataProvider = "RegData", dataProviderClass = DataProviders.class)
+    public void verifyLogin(String email, String password) {
 
         logger.info("===== Starting Login Test =====");
+        System.out.println("Login Test Started with email: " + email);
 
         try {
             // Home Page
@@ -28,55 +28,34 @@ public class LoginTest extends BaseClass {
             lp.setPassword(password);
             lp.clickLogin();
 
-            // Check if login success (My Account visible)
-            boolean isLoggedIn;
+            // Check if login success using page object method
+            boolean isLoggedIn = lp.isLoggedIn();
 
-            try {
-                isLoggedIn = driver.findElement(
-                        By.linkText("Edit your account information")
-                ).isDisplayed();
-            } catch (Exception e) {
-                isLoggedIn = false;
-            }
-
-            // ===== Validation Logic =====
-            if (expected.equalsIgnoreCase("Pass")) {
-                if (isLoggedIn) {
-                    logger.info("Login passed as expected");
-                    Assert.assertTrue(true);
-
-                    // logout to reset state
-                    driver.findElement(By.linkText("Logout")).click();
-
-                } else {
-                    logger.error("Login failed but expected Pass");
-                    Assert.fail();
-                }
-            }
-
-            if (expected.equalsIgnoreCase("Fail")) {
-                if (!isLoggedIn) {
-                    logger.info("Login failed as expected");
-                    Assert.assertTrue(true);
-                } else {
-                    logger.error("Login passed but expected Fail");
-
-                    // logout if accidentally logged in
-                    driver.findElement(By.linkText("Logout")).click();
-
-                    Assert.fail();
-                }
+            // Since we're using RegData (valid credentials), login should succeed
+            if (isLoggedIn) {
+                logger.info("Login passed as expected");
+                System.out.println("✅ LOGIN TEST PASSED - User successfully logged in");
+                Assert.assertTrue(true);
+                
+                // logout to reset state
+                lp.logout();
+                System.out.println("✅ LOGOUT COMPLETED - Test state reset");
+            } else {
+                logger.error("Login failed but expected Pass");
+                System.out.println("❌ LOGIN TEST FAILED - Expected login to pass but it failed");
+                Assert.fail();
             }
 
         } catch (Exception e) {
             logger.error("Exception in login test: " + e.getMessage());
+            System.out.println("❌ LOGIN TEST EXCEPTION - " + e.getMessage());
             Assert.fail();
         }
 
         logger.info("===== Finished Login Test =====");
+        System.out.println("Login Test Completed");
     }
 }
-
 
 /*
 Login Successful

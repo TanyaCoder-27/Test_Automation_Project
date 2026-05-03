@@ -3,7 +3,6 @@ package testCases;
 
 import java.io.IOException;
 
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -17,6 +16,8 @@ public class RegistrationTest extends BaseClass {
     @Test
     public void verifyRegistration() throws IOException {
 
+        System.out.println("Registration Test Started");
+        
         HomePage hp = new HomePage(driver);
         hp.clickMyAccount();
         hp.clickRegister();
@@ -30,6 +31,9 @@ public class RegistrationTest extends BaseClass {
         String phone = randomeNumber();
         String password = "Test@" + randomeNumber().substring(0,3);
 
+        System.out.println("Generated Email: " + email);
+        System.out.println("Generated Password: " + password);
+
         rp.setFirstName(firstName);
         rp.setLastName(lastName);
         rp.setEmail(email);
@@ -40,12 +44,16 @@ public class RegistrationTest extends BaseClass {
         rp.clickPolicy();
         rp.clickContinue();
 
-        // Validation
-        String successMessage = driver.findElement(
-                By.xpath("//h1[text()='Your Account Has Been Created!']")
-        ).getText();
-
-        Assert.assertEquals(successMessage, "Your Account Has Been Created!");
+        // Validation using page object method
+        boolean successDisplayed = rp.isSuccessMessageDisplayed();
+        
+        if (successDisplayed) {
+            System.out.println("✅ REGISTRATION TEST PASSED - Account created successfully");
+            Assert.assertTrue(successDisplayed, "Registration success message should be displayed");
+        } else {
+            System.out.println("❌ REGISTRATION TEST FAILED - Success message not displayed");
+            Assert.assertTrue(successDisplayed, "Registration success message should be displayed");
+        }
 
         System.out.println("Registration Successful");
         System.out.println("Registered Email: " + email);
@@ -66,6 +74,9 @@ public class RegistrationTest extends BaseClass {
 
         xl.setCellData("Users", row, 0, email);
         xl.setCellData("Users", row, 1, password);
+        
+        System.out.println("✅ Credentials saved to Excel");
+        System.out.println("Registration Test Completed");
     }
 }
 

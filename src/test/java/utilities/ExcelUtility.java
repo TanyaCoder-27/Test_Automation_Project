@@ -60,37 +60,75 @@ public class ExcelUtility {
 	
 	public int getCellCount(String sheetName,int rownum) throws IOException
 	{
-		fi=new FileInputStream(path);
-		workbook=new XSSFWorkbook(fi);
-		sheet=workbook.getSheet(sheetName);
-		row=sheet.getRow(rownum);
-		int cellcount=row.getLastCellNum();
-		workbook.close();
-		fi.close();
-		return cellcount;
+		File file = new File(path);
+
+	    if (!file.exists()) {
+	        return 0;
+	    }
+
+	    fi = new FileInputStream(file);
+	    workbook = new XSSFWorkbook(fi);
+	    sheet = workbook.getSheet(sheetName);
+
+	    if (sheet == null) {
+	        workbook.close();
+	        fi.close();
+	        return 0;
+	    }
+
+	    row = sheet.getRow(rownum);
+	    if (row == null) {
+	        workbook.close();
+	        fi.close();
+	        return 0;
+	    }
+	    
+	    int cellcount = row.getLastCellNum();
+	    workbook.close();
+	    fi.close();
+	    return cellcount;
 	}
 	
 	
 	public String getCellData(String sheetName,int rownum,int colnum) throws IOException
 	{
-		fi=new FileInputStream(path);
-		workbook=new XSSFWorkbook(fi);
-		sheet=workbook.getSheet(sheetName);
-		row=sheet.getRow(rownum);
-		cell=row.getCell(colnum);
-		
-		DataFormatter formatter = new DataFormatter();
-		String data;
-		try{
-		data = formatter.formatCellValue(cell); //Returns the formatted value of a cell as a String regardless of the cell type.
-		}
-		catch(Exception e)
-		{
-			data="";
-		}
-		workbook.close();
-		fi.close();
-		return data;
+		File file = new File(path);
+
+	    if (!file.exists()) {
+	        return "";
+	    }
+
+	    fi = new FileInputStream(file);
+	    workbook = new XSSFWorkbook(fi);
+	    sheet = workbook.getSheet(sheetName);
+
+	    if (sheet == null) {
+	        workbook.close();
+	        fi.close();
+	        return "";
+	    }
+
+	    row = sheet.getRow(rownum);
+	    if (row == null) {
+	        workbook.close();
+	        fi.close();
+	        return "";
+	    }
+
+	    cell = row.getCell(colnum);
+	    
+	    DataFormatter formatter = new DataFormatter();
+	    String data;
+	    try{
+	    	data = formatter.formatCellValue(cell); //Returns the formatted value of a cell as a String regardless of the cell type.
+	    }
+	    catch(Exception e)
+	    {
+	    	data="";
+	    }
+	    workbook.close();
+	    fi.close();
+	    return data;
 	}
 	
 	public void setCellData(String sheetName, int rownum, int colnum, String data) throws IOException {

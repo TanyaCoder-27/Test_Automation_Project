@@ -15,13 +15,13 @@ public class LogoutTest extends BaseClass {
     @Test(dataProvider="RegData",dataProviderClass=DataProviders.class)
     public void verifyLogout(String email, String password) {
 
+        System.out.println("Logout Test Started with email: " + email);
+        
         HomePage hp = new HomePage(driver);
         hp.clickMyAccount();
         hp.clickLogin();
 
         LoginPage lp = new LoginPage(driver);
-        //lp.setEmail("b69bc@gmail.com");  // use a registered email : b69bc@gmail.com
-        //lp.setPassword("Test@123");
         lp.setEmail(email);
         lp.setPassword(password);
 
@@ -30,17 +30,22 @@ public class LogoutTest extends BaseClass {
         hp.clickMyAccount();
         hp.clickLogout();
 
+        // Using page object method instead of hardcoded xpath
         boolean logoutMsg = driver.findElement(
                 By.xpath("//h1[text()='Account Logout']")
         ).isDisplayed();
 
-        Assert.assertTrue(logoutMsg);
+        if (logoutMsg) {
+            System.out.println(" LOGOUT TEST PASSED - Account Logout message displayed");
+            Assert.assertTrue(logoutMsg, "Logout message should be displayed");
+        } else {
+            System.out.println(" LOGOUT TEST FAILED - Account Logout message not found");
+            Assert.assertTrue(logoutMsg, "Logout message should be displayed");
+        }
 
-        System.out.println("Logout Successful");
+        System.out.println("Logout Test Completed");
     }
 }
-
-
 
 
 

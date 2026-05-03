@@ -18,6 +18,8 @@ public class HomePage extends BasePage {
     By monitorsLink = By.linkText("Monitors (2)");
     By PhonesAndPDAsLink = By.linkText("Phones & PDAs");
     By checkoutLink = By.linkText("Checkout");
+    By cartLink = By.xpath("//div[@id='cart']/button");
+    
     public HomePage(WebDriver driver) {
         super(driver);
     }
@@ -49,8 +51,8 @@ public class HomePage extends BasePage {
     
     public void clickMonitors() {
     			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-    					wait.until(ExpectedConditions.elementToBeClickable(monitorsLink)).click();
-    					
+    				wait.until(ExpectedConditions.elementToBeClickable(monitorsLink)).click();
+    						
     }
     
     public void clickPhonesAndPDAs() {
@@ -62,6 +64,11 @@ public class HomePage extends BasePage {
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.elementToBeClickable(checkoutLink)).click();
 	}
+    
+    public void openCart() {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.elementToBeClickable(cartLink)).click();
+    }
 }
 
 

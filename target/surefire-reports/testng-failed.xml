@@ -8,13 +8,21 @@
     <parameter name="os" value="Windows"/>
     <parameter name="browser" value="chrome"/>
     <classes>
-      <class name="testCases.RegistrationTest">
+      <class name="testCases.RemoveFromCartTest">
+        <methods>
+          <include name="verifyRemoveFromCart" invocation-numbers="0"/>
+          <include name="tearDown"/>
+          <include name="setup"/>
+        </methods>
+      </class> <!-- testCases.RemoveFromCartTest -->
+      <class name="testCases.CartValidationTest">
         <methods>
           <include name="tearDown"/>
           <include name="setup"/>
-          <include name="verifyRegistration"/>
+          <include name="verifyCartValidation" invocation-numbers="0"/>
+          <include name="verifyRemoveFromCart" invocation-numbers="0"/>
         </methods>
-      </class> <!-- testCases.RegistrationTest -->
+      </class> <!-- testCases.CartValidationTest -->
     </classes>
   </test> <!-- EcommerceTests(failed) -->
 </suite> <!-- Failed suite [EcommerceSuite] -->
